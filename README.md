@@ -1,85 +1,55 @@
-# 📚 Biblioteca IFSP — Sistema de Gestão de Biblioteca e Empréstimos
+# Biblioteca IFSP - Sistema de Gestao de Biblioteca e Emprestimos
 
-Aplicação web em Laravel para gerenciar o acervo de uma biblioteca e controlar o ciclo de
-empréstimo/devolução de livros, desenvolvida com apoio de IA (Vibe Coding) e Laravel Boost,
-como atividade da disciplina de Desenvolvimento de Aplicações — IFSP Campus Guarulhos.
+Aplicacao web em Laravel para gerenciar o acervo de uma biblioteca e controlar o ciclo de
+emprestimo/devolucao de livros.
 
-## Funcionalidades
+## Release Inicial
 
-- Autenticação (login, registro, logout), com perfis `leitor`, `bibliotecario` e `admin`.
-- CRUD de Categorias, Autores e Livros (restrito a bibliotecário/admin).
-- Catálogo de livros com busca por título e filtro por categoria.
-- Registro de empréstimos e devoluções, com controle automático da quantidade de exemplares disponíveis.
-- Painel (dashboard) com indicadores para o bibliotecário e lista de empréstimos para o leitor.
+- Versao: `v0.1.0`
+- Stack: Laravel 13, PHP 8.3+, SQLite
+- Inclui: autenticacao, controle de perfis, CRUDs principais e fluxo de emprestimos
 
-## Tecnologias utilizadas
+## Execucao Rapida (Windows + PowerShell)
 
-- PHP 8.3+ / Laravel 11+
-- Laravel Boost (MCP + AI Guidelines/Skills)
-- SQLite (padrão) — compatível com MySQL/PostgreSQL via `.env`
-- Tailwind CSS (CDN)
-- PHPUnit
+Pre-requisitos:
 
-## Instalação
+- PHP 8.3+
+- Composer 2+
+- Git
 
-> Pré-requisitos: PHP 8.3+, Composer, Git.
+Passo a passo:
 
-```bash
-# 1. Clonar o repositório
-git clone <url-do-seu-repositorio>
-cd biblioteca-ifsp
+```powershell
+git clone https://github.com/P-Hwe/DSFW.git
+cd DSFW
 
-# 2. Instalar dependências PHP
 composer install
 
-# 3. Configurar o ambiente
-cp .env.example .env
+Copy-Item .env.example .env
 php artisan key:generate
 
-# 4. Banco de dados (SQLite por padrão)
-touch database/database.sqlite
-# Verifique no .env: DB_CONNECTION=sqlite
+if (!(Test-Path database\database.sqlite)) { New-Item -ItemType File -Path database\database.sqlite | Out-Null }
 
-# 5. Rodar migrations + seeders
 php artisan migrate --seed
-
-# 6. Subir a aplicação
 php artisan serve
 ```
 
-Acesse em `http://localhost:8000`.
+Acesse: `http://127.0.0.1:8000`
 
-## Usuários de teste
+## Usuarios de teste
 
-Criados automaticamente pelo `DatabaseSeeder` (senha igual para todos, apenas para fins de avaliação):
+Criados automaticamente pelo seeder (senha para todos: `password`):
 
-| Perfil         | E-mail                      | Senha      |
-|----------------|------------------------------|------------|
-| Administrador  | admin@biblioteca.test         | password   |
-| Bibliotecário  | bibliotecaria@biblioteca.test | password   |
-| Leitor         | leitor@biblioteca.test        | password   |
+| Perfil | E-mail |
+|---|---|
+| Administrador | admin@biblioteca.test |
+| Bibliotecario | bibliotecaria@biblioteca.test |
+| Leitor | leitor@biblioteca.test |
 
-## Estrutura do projeto
-
-```
-Projeto/
-├── README.md
-├── RELATORIO.md
-├── PLANO_IMPLEMENTACAO.md
-├── .ai/skills/            # Skills do Laravel Boost (Identidade Visual, CRUD, Segurança, Testes)
-├── app/
-├── bootstrap/
-├── config/
-├── database/
-├── resources/
-├── routes/
-└── tests/
-```
-
-## Testes automatizados
+## Comandos uteis
 
 ```bash
 php artisan test
+php artisan route:list
+php artisan migrate:fresh --seed
 ```
-
-Cobrem o fluxo principal de empréstimo/devolução e o bloqueio de acesso para usuários sem permissão.
