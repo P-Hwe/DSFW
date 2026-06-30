@@ -1,58 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📚 Biblioteca IFSP — Sistema de Gestão de Biblioteca e Empréstimos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicação web em Laravel para gerenciar o acervo de uma biblioteca e controlar o ciclo de
+empréstimo/devolução de livros, desenvolvida com apoio de IA (Vibe Coding) e Laravel Boost,
+como atividade da disciplina de Desenvolvimento de Aplicações — IFSP Campus Guarulhos.
 
-## About Laravel
+## Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Autenticação (login, registro, logout), com perfis `leitor`, `bibliotecario` e `admin`.
+- CRUD de Categorias, Autores e Livros (restrito a bibliotecário/admin).
+- Catálogo de livros com busca por título e filtro por categoria.
+- Registro de empréstimos e devoluções, com controle automático da quantidade de exemplares disponíveis.
+- Painel (dashboard) com indicadores para o bibliotecário e lista de empréstimos para o leitor.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologias utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.3+ / Laravel 11+
+- Laravel Boost (MCP + AI Guidelines/Skills)
+- SQLite (padrão) — compatível com MySQL/PostgreSQL via `.env`
+- Tailwind CSS (CDN)
+- PHPUnit
 
-## Learning Laravel
+## Instalação
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+> Pré-requisitos: PHP 8.3+, Composer, Git.
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clonar o repositório
+git clone <url-do-seu-repositorio>
+cd biblioteca-ifsp
 
-php artisan boost:install
+# 2. Instalar dependências PHP
+composer install
+
+# 3. Configurar o ambiente
+cp .env.example .env
+php artisan key:generate
+
+# 4. Banco de dados (SQLite por padrão)
+touch database/database.sqlite
+# Verifique no .env: DB_CONNECTION=sqlite
+
+# 5. Rodar migrations + seeders
+php artisan migrate --seed
+
+# 6. Subir a aplicação
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Acesse em `http://localhost:8000`.
 
-## Contributing
+## Usuários de teste
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Criados automaticamente pelo `DatabaseSeeder` (senha igual para todos, apenas para fins de avaliação):
 
-## Code of Conduct
+| Perfil         | E-mail                      | Senha      |
+|----------------|------------------------------|------------|
+| Administrador  | admin@biblioteca.test         | password   |
+| Bibliotecário  | bibliotecaria@biblioteca.test | password   |
+| Leitor         | leitor@biblioteca.test        | password   |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Estrutura do projeto
 
-## Security Vulnerabilities
+```
+Projeto/
+├── README.md
+├── RELATORIO.md
+├── PLANO_IMPLEMENTACAO.md
+├── .ai/skills/            # Skills do Laravel Boost (Identidade Visual, CRUD, Segurança, Testes)
+├── app/
+├── bootstrap/
+├── config/
+├── database/
+├── resources/
+├── routes/
+└── tests/
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Testes automatizados
 
-## License
+```bash
+php artisan test
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Cobrem o fluxo principal de empréstimo/devolução e o bloqueio de acesso para usuários sem permissão.
